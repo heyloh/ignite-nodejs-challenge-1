@@ -113,13 +113,17 @@ app.patch(
   }
 );
 
+app.delete(
+  "/todos/:id",
+  checksExistsUserAccount,
+  checksExistsUserTodo,
+  (request, response) => {
+    const { user, todo } = request;
 
-app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
-});
+    user.todos.splice(todo, 1);
 
-app.delete('/todos/:id', checksExistsUserAccount, (request, response) => {
-  // Complete aqui
-});
+    return response.status(204).json(user.todos);
+  }
+);
 
 module.exports = app;
