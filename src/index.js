@@ -39,9 +39,27 @@ function checksExistsUserTodo(request, response, next) {
   return next();
 }
 
+app.post("/users", (request, response) => {
+  const { name, username } = request.body;
 
-app.post('/users', (request, response) => {
-  // Complete aqui
+  const usernameAlreadyCreated = users.some(
+    (user) => user.username === username
+  );
+
+  if (usernameAlreadyCreated) {
+    return response.status(400).json({ error: "Username already created." });
+  }
+
+  const user = {
+    id: uuidv4(),
+    name,
+    username,
+    todos: [],
+  };
+
+  users.push(user);
+
+  return response.json(user);
 });
 
 app.get('/todos', checksExistsUserAccount, (request, response) => {
