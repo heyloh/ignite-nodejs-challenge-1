@@ -100,6 +100,19 @@ app.put(
   }
 );
 
+app.patch(
+  "/todos/:id/done",
+  checksExistsUserAccount,
+  checksExistsUserTodo,
+  (request, response) => {
+    const { todo } = request;
+
+    todo.done = true;
+
+    return response.status(201).json(todo);
+  }
+);
+
 
 app.patch('/todos/:id/done', checksExistsUserAccount, (request, response) => {
   // Complete aqui
